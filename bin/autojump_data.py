@@ -15,6 +15,7 @@ from autojump_utils import is_osx
 from autojump_utils import is_python3
 from autojump_utils import move_file
 from autojump_utils import unico
+from autojump_utils import get_data_home
 
 
 if sys.version_info[0] == 3:
@@ -51,12 +52,13 @@ def entriefy(data):
 
 def load(config):
     """Returns a dictonary (key=path, value=weight) loaded from data file."""
-    xdg_aj_home = os.path.join(
-        os.path.expanduser('~'),
-        '.local',
-        'share',
-        'autojump',
-    )
+    xdg_aj_home = get_data_home()
+    # xdg_aj_home = os.path.join(
+    #     os.path.expanduser('~'),
+    #     '.local',
+    #     'share',
+    #     'autojump',
+    # )
 
     if is_osx() and os.path.exists(xdg_aj_home):
         migrate_osx_xdg_data(config)

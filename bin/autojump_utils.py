@@ -209,3 +209,23 @@ def unico(string):
     if is_python2() and not isinstance(string, unicode):
         return unicode(string, encoding='utf-8', errors='replace')
     return string
+
+def get_data_home():
+    data_home = os.getenv('AUTOJUMP_DATA_HOME')
+    if data_home:
+        return data_home
+    
+    if is_osx():
+        data_home = os.path.join(os.path.expanduser('~'), 'Library')
+    elif is_windows():
+        data_home = os.getenv('APPDATA')
+    else:
+        data_home = os.getenv(
+            'XDG_DATA_HOME',
+            os.path.join(
+                os.path.expanduser('~'),
+                '.local',
+                'share',
+            ),
+        )
+    return data_home

@@ -18,14 +18,17 @@ if command -v brew &>/dev/null; then
 fi
 
 
-# set error file location
-if [[ "$(uname)" == "Darwin" ]]; then
-    export AUTOJUMP_ERROR_PATH=~/Library/autojump/errors.log
-elif [[ -n "${XDG_DATA_HOME}" ]]; then
-    export AUTOJUMP_ERROR_PATH="${XDG_DATA_HOME}/autojump/errors.log"
-else
-    export AUTOJUMP_ERROR_PATH=~/.local/share/autojump/errors.log
+# Set error file location only if AUTOJUMP_ERROR_PATH is not already set
+if [[ -z "$AUTOJUMP_ERROR_PATH" ]]; then
+    if [[ "$(uname)" == "Darwin" ]]; then
+        export AUTOJUMP_ERROR_PATH=~/Library/autojump/errors.log
+    elif [[ -n "${XDG_DATA_HOME}" ]]; then
+        export AUTOJUMP_ERROR_PATH="${XDG_DATA_HOME}/autojump/errors.log"
+    else
+        export AUTOJUMP_ERROR_PATH=~/.local/share/autojump/errors.log
+    fi
 fi
+
 
 if [[ ! -d ${AUTOJUMP_ERROR_PATH:h} ]]; then
     mkdir -p ${AUTOJUMP_ERROR_PATH:h}

@@ -64,6 +64,7 @@ from autojump_utils import print_tab_menu
 from autojump_utils import sanitize
 from autojump_utils import take
 from autojump_utils import unico
+from autojump_utils import get_data_home
 
 VERSION = '22.5.3'
 FUZZY_MATCH_THRESHOLD = 0.6
@@ -71,25 +72,13 @@ TAB_ENTRIES_COUNT = 9
 TAB_SEPARATOR = '__'
 
 
+
+
 def set_defaults():
     config = {}
-
-    if is_osx():
-        data_home = os.path.join(os.path.expanduser('~'), 'Library')
-    elif is_windows():
-        data_home = os.getenv('APPDATA')
-    else:
-        data_home = os.getenv(
-            'XDG_DATA_HOME',
-            os.path.join(
-                os.path.expanduser('~'),
-                '.local',
-                'share',
-            ),
-        )
+    data_home = get_data_home()
     config['data_path'] = os.path.join(data_home, 'autojump', 'autojump.txt')
     config['backup_path'] = os.path.join(data_home, 'autojump', 'autojump.txt.bak')
-
     return config
 
 
